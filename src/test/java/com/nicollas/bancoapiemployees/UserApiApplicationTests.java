@@ -1,4 +1,4 @@
-package com.nicollas.user_api;
+package com.nicollas.bancoapiemployees;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
