@@ -2,10 +2,14 @@ package com.nicollas.bancoapiemployees.infrastructure.controller;
 
 import com.nicollas.bancoapiemployees.application.usecases.EmployeeService;
 import com.nicollas.bancoapiemployees.domain.model.Employee;
+import com.nicollas.bancoapiemployees.infrastructure.controller.dto.EmployeeRequestDTO;
+import com.nicollas.bancoapiemployees.infrastructure.controller.dto.EmployeeResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -19,13 +23,21 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAll() {
-        return service.listAll();
+    public List<EmployeeResponseDTO> getAll() {
+        return service.listAll()
+                .stream()
+                .map(e -> new EmployeeResponseDTO(
+                        e.getId(), e.getName(), e.getEmail(), e.getDepartment()
+                )).collect(Collectors.toList());
     }
 
     @PostMapping
-    public Employee create(@RequestBody Employee employee) {
-        return service.create(employee);
+    public EmployeeResponseDTO create(@Valid @RequestBody EmployeeRequestDTO request) {
+        Employee novo = new Employee(null, request.getName(), request.getEmail(), request.getDepartment());
+        Employee criado = service.create(novo);
+        return new EmployeeResponseDTO(
+                criado.getId(), criado.getName(), criado.getEmail(), criado.getDepartment()
+        );
     }
 
     @DeleteMapping("/{id}")
