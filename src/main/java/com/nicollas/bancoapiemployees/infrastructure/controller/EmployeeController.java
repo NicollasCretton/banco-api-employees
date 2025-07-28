@@ -1,6 +1,7 @@
 package com.nicollas.bancoapiemployees.infrastructure.controller;
 
 import com.nicollas.bancoapiemployees.application.usecases.EmployeeService;
+import com.nicollas.bancoapiemployees.domain.exception.EmployeeNotFoundException;
 import com.nicollas.bancoapiemployees.domain.model.Employee;
 import com.nicollas.bancoapiemployees.infrastructure.controller.dto.EmployeeRequestDTO;
 import com.nicollas.bancoapiemployees.infrastructure.controller.dto.EmployeeResponseDTO;
@@ -29,6 +30,16 @@ public class EmployeeController {
                 .map(e -> new EmployeeResponseDTO(
                         e.getId(), e.getName(), e.getEmail(), e.getDepartment()
                 )).collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public EmployeeResponseDTO getById(@PathVariable Long id) {
+        Employee emp = service.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
+
+        return new EmployeeResponseDTO(
+                emp.getId(), emp.getName(), emp.getEmail(), emp.getDepartment()
+        );
     }
 
     @PostMapping
