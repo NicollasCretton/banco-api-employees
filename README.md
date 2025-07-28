@@ -8,7 +8,7 @@ API RESTful para cadastro, listagem e remoção de funcionários, construída co
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/banco-api-employees.git
+git clone https://github.com/NicollasCretton/banco-api-employees
 cd banco-api-employees
 ```
 
