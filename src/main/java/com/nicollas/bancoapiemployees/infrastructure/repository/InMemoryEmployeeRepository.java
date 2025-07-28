@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class JpaEmployeeRepository implements EmployeeRepository {
+public class InMemoryEmployeeRepository implements EmployeeRepository {
     // Este será substituído futuramente por um repositório JPA real
     private final Map<Long, Employee> bancoEmMemoria = new HashMap<>();
     private Long idAtual = 1L;
